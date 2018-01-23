@@ -46,9 +46,9 @@ else()
         tetgen_external
         SOURCE_DIR ${PROJECT_SOURCE_DIR}/external/tetgen
         GIT_REPOSITORY https://github.com/christopherpoole/tetgen.git
-        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=${CMAKE_BINARY_DIR}
+        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=${CMAKE_INSTALL_PREFIX}
     )
-    include_directories(${PROJECT_BINARY_DIR}/include)
+    include_directories(${CMAKE_INSTALL_PREFIX}/include)
 endif()
 
 # Open Asset Importer Library
@@ -61,7 +61,7 @@ else()
         SOURCE_DIR ${PROJECT_SOURCE_DIR}/external/assimp
         GIT_REPOSITORY https://github.com/assimp/assimp.git
         GIT_TAG v4.0.1
-        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=${CMAKE_BINARY_DIR}
+        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=${CMAKE_INSTALL_PREFIX}
     )
     include_directories(${PROJECT_BINARY_DIR}/include/assimp/include)
 endif()
@@ -96,14 +96,14 @@ add_library(cadmesh SHARED ${sources} ${headers})
 # Link against either the system libraries, or the external project libaries.
 if(${WITH_SYS_TETGEN} MATCHES "OFF")
     add_dependencies(cadmesh tetgen_external)
-    target_link_libraries(cadmesh -L${CMAKE_BINARY_DIR}/lib tet)
+    target_link_libraries(cadmesh -L${CMAKE_INSTALL_PREFIX}/lib tet)
 else()
     target_link_libraries(cadmesh tet)
 endif()
 
 if(${WITH_SYS_ASSIMP} MATCHES "OFF")
     add_dependencies(cadmesh assimp_external)
-    target_link_libraries(cadmesh -L${CMAKE_BINARY_DIR}/lib assimp)
+    target_link_libraries(cadmesh -L${CMAKE_INSTALL_PREFIX}/lib assimp)
 else()
     target_link_libraries(cadmesh assimp)
 endif()
