@@ -91,7 +91,7 @@ include_directories(${CMAKE_INSTALL_PREFIX}/include)
 include_directories(${PROJECT_BINARY_DIR}/include)
 
 # Set up the target.
-add_library(cadmesh "SHARED" ${sources} ${headers}) 
+add_library(cadmesh SHARED ${sources} ${headers}) 
 
 # Link against either the system libraries, or the external project libaries.
 if(${WITH_SYS_TETGEN} MATCHES "OFF")
@@ -120,7 +120,7 @@ install(FILES ${PROJECT_BINARY_DIR}/include/Configuration.hh DESTINATION include
 install(TARGETS cadmesh DESTINATION lib)
 
 # Install the external project headers.
-install(DIRECTORY ${CMAKE_BINARY_DIR}/include/ DESTINATION include)
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/ DESTINATION include)
 
 # Install the external project libraries.
 install(DIRECTORY ${CMAKE_BINARY_DIR}/lib/ DESTINATION lib)
